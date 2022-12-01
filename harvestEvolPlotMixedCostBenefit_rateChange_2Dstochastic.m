@@ -39,7 +39,7 @@ end
 
 w=1; %shape parameter for diminishing returns (larger=faster diminishing returns)
 Cfs=1; %process marginal cost (marginal cost with catch)
-Cf=0; %effort-based marginal cost (marginal cost of each unit of effort x catchability): 0.01
+Cf=0.01; %effort-based marginal cost (marginal cost of each unit of effort x catchability): 0.01
 C3=0; %multiplier for diminishing marginal cost with catch (economy of scales): (can be taken out)
 %V=1; %reference price (multiplier for diminishing marginal benefit) - this
 %is being varied in the plot
@@ -54,7 +54,7 @@ ddu=simplify(diff(du,F));
 F_symsols=solve(du,F)
 
 %run trajectories with parameter change
-reps=100; %replicates per rate of change in V
+reps=3; %replicates per rate of change in V
 plotReps=3; %number of trajectories to plot
 %rates=[0.1, 1]; %rates of change in V
 %cycleFreq=[0.1 1]; %frequency of cycles in V
@@ -111,7 +111,7 @@ text(1,1.8,{'economics:';['     u_S=' num2str(Vs,1) ', u_F=' num2str(Cf,1)   ', 
     'ecology:';['    \rho=' num2str(p,2)]
     },'FontSize',16);
 
-xlabel 'price/(cost x MSY) [X=u_{\betaFS}/(u_{FS}MSY)]'
+xlabel '\lambda_c'
 ylabel 'biomass (S/S_{MSY})'
 ylim([-0.01 Smax/Smsy])
 ytickrecord=yticks;
@@ -132,6 +132,9 @@ for i=1:2 %low or high treatment
     initF=Fsols(maxSpos,Vpos); %find initF at initV that leads to largest stable biomass
     %initF=initFs(i);
     t1=abs(DV/dVdt);
+    if isnan(t1)
+        t1=0;
+    end
     if i==1
         times=[0:simTimeStep:t1+endTimes(1)];
     else
@@ -192,27 +195,27 @@ else
 end
 
 trackY=0.65; %position of next text line
-text(1.3,0.95,['X change:'],'Color','k','FontSize',16);
+text(1.3,0.95,['exogenous change:'],'Color','k','FontSize',16);
 if DV==0
-    text(1.3,0.8,['    dX/dt=0'],'Color','k','FontSize',16);
+    text(1.3,0.8,['    R=0'],'Color','k','FontSize',16);
 else
-    text(1.3,0.8,['    dX/dt_{low}=' num2str(rates(1),1)],'Color','b','FontSize',16);
-    text(1.3,0.65,['    dX/dt_{high}=' num2str(rates(2),1)],'Color','r','FontSize',16);
+    text(1.3,0.8,['    R_{low}=' num2str(rates(1),1)],'Color','b','FontSize',16);
+    text(1.3,0.65,['    R_{high}=' num2str(rates(2),1)],'Color','r','FontSize',16);
     trackY=trackY-0.15;
 end
 if sum(CV)==0
-    text(1.3,trackY,['    cycle freq=0'],'Color','k','FontSize',16);
+    text(1.3,trackY,['    f=0'],'Color','k','FontSize',16);
     trackY=trackY-0.15;
 else
-    text(1.3,trackY,['    cycle freq_{low}=' num2str(cycleFreq(1),2)],'Color','b','FontSize',16);
-    text(1.3,trackY-0.15,['    cycle freq_{high}=' num2str(cycleFreq(2),2)],'Color','r','FontSize',16);
+    text(1.3,trackY,['    f_{low}=' num2str(cycleFreq(1),2)],'Color','b','FontSize',16);
+    text(1.3,trackY-0.15,['    f_{high}=' num2str(cycleFreq(2),2)],'Color','r','FontSize',16);
     trackY=trackY-0.3;
 end
 if DDVs(1)==DDVs(2)
-    text(1.3,trackY,['    \sigma_X^2=0'],'Color','k','FontSize',16);
+    text(1.3,trackY,['    \sigma_{\lambdac}^2=0'],'Color','k','FontSize',16);
 else
-    text(1.3,trackY,['    \sigma_X^2_{ low}=' num2str(DDVs(1))],'Color','b','FontSize',16);
-    text(1.3,trackY-0.15,['    \sigma_X^2_{ high}=' num2str(DDVs(2))],'Color','r','FontSize',16);
+    text(1.3,trackY,['    \sigma_{\lambdac}_{ low}=' num2str(DDVs(1))],'Color','b','FontSize',16);
+    text(1.3,trackY-0.15,['    \sigma_{\lambdac}_{ high}=' num2str(DDVs(2))],'Color','r','FontSize',16);
 end
 
 %title({[num2str(plotReps) ' trajectories per rate of change'];''},'fontweight','normal')

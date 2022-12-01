@@ -1,4 +1,4 @@
-function []=harvestEvolPlotUs_solutions(initVs,rates,cycleFreq,endTimes,Ds,DDVs,DV,CV,params)
+function []=harvestEvolPlotMixedCostBenefit_solutions(initVs,rates,cycleFreq,endTimes,Ds,DDVs,DV,CV,params)
 
 % - find solutions to harvest rate evolution and plot corresponding stock
 % equilibria for Pella-Tomlnson growth curve with all kinds of costs and

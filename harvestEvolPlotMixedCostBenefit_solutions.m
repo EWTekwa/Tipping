@@ -125,7 +125,7 @@ text(1,1.8,{['\beta=' num2str(bet) ', \rho=' num2str(p) ', \alpha=' num2str(alph
     ['u_S=' num2str(Vs) ', u_E=' num2str(-Cf)];
     },'FontSize',16);
 
-xlabel 'price/(cost x MSY) [X=u_{\betaFS}/(u_{FS}MSY)]'
+xlabel '\lambda_c'
 ylabel 'biomass (S/S_{MSY})'
 ylim([-0.01 Smax/Smsy])
 ytickrecord=yticks;
